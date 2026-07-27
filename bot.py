@@ -1,4 +1,17 @@
-from strategy import get_async def signal(update, context):
+from telegram import Update
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from strategy import get_signal
+
+TOKEN = "এখানে_তোমার_BotFather_টোকেন"
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(
+        "🤖 AI Signal Bot Ready!\n\n"
+        "কমান্ড:\n"
+        "/signal"
+    )
+
+async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     data = get_signal("BTCUSDT")
 
     await update.message.reply_text(
@@ -12,3 +25,11 @@ from strategy import get_async def signal(update, context):
 
 ⚠️ Analysis only. No signal can guarantee profit."""
     )
+
+app = ApplicationBuilder().token(TOKEN).build()
+
+app.add_handler(CommandHandler("start", start))
+app.add_handler(CommandHandler("signal", signal))
+
+print("Bot Started...")
+app.run_polling()
