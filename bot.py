@@ -1,8 +1,8 @@
-from telegram import Update
+herefrom telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from strategy import get_signal
 
-TOKEN = "AAHmiU0DBoEdgghIZ-Y0q5VFigIlcfB-irE"
+TOKEN = "এখানে_তোমার_BotFather_টোকেন"
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
