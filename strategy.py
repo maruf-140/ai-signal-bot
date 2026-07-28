@@ -35,8 +35,8 @@ def get_signal(symbol="BTCUSDT"):
         confidence = 78
 
     return {
-        "signal": signal,
-        "confidence": confidence,
-        "price": round(last["close"], 2),
-        "rsi": round(last["RSI"], 2),
-  }
+    "signal": signal,
+    "confidence": confidence,
+    "price": round(last["close"], 2),
+    "rsi": round(last["RSI"], 2),
+        }
