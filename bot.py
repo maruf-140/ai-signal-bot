@@ -1,41 +1,59 @@
+import os
+from dotenv import load_dotenv
+
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram.ext import (
+    ApplicationBuilder,
+    CommandHandler,
+    ContextTypes,
+)
+
 from strategy import get_signal
 
-# এখানে তোমার BotFather থেকে পাওয়া নতুন Token বসাও
-BOT_TOKEN = "AAGP7bMHyjcCHzRsS34uV8VwlHFLzjy6R8g"
+load_dotenv()
+
+BOT_TOKEN = os.getenv("AAGP7bMHyjcCHzRsS34uV8VwlHFLzjy6R8g")
+
+if not BOT_TOKEN:
+    raise Exception("BOT_TOKEN not found! Create a .env file.")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "🤖 AI Signal Bot চালু হয়েছে!\n\n"
+        "🤖 AI Market Bot চালু হয়েছে!\n\n"
         "কমান্ড:\n"
         "/signal"
     )
 
 async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
-        data = get_signal("BTCUSDT")
+        data = get_signal()
 
         message = f"""
 📊 AI Market Analysis
 
-🪙 Pair: BTCUSDT
-💰 Price: {data['price']}
+💰 Pair: BTCUSDT
+💲 Price: {data['price']}
 📈 Signal: {data['signal']}
 🎯 Confidence: {data['confidence']}%
 📉 RSI: {data['rsi']}
 
-⚠️ এটি শুধুমাত্র মার্কেট বিশ্লেষণ।
+⚠️ এটি শুধুমাত্র শিক্ষামূলক বিশ্লেষণ।
 """
+
         await update.message.reply_text(message)
 
     except Exception as e:
-        await update.message.reply_text(f"❌ Error: {e}")
+        await update.message.reply_text(f"❌ Error:\n{e}")
 
-app = ApplicationBuilder().token(BOT_TOKEN).build()
+def main():
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
-app.add_handler(CommandHandler("start", start))
-app.add_handler(CommandHandler("signal", signal))
+    app.add_handler(CommandHandler("start", start))
+    app.add_handler(CommandHandler("signal", signal))
 
-print("✅ Bot Started...")
-app.run_polling()
+    print("✅ Bot Started...")
+
+    app.run_polling()
+
+if __name__ == "__main__":
+    main()
