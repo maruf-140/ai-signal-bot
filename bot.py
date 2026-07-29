@@ -12,17 +12,18 @@ from strategy import get_signal
 
 load_dotenv()
 
-BOT_TOKEN = os.getenv("AAGP7bMHyjcCHzRsS34uV8VwlHFLzjy6R8g")
+BOT_TOKEN = os.getenv("AAF0GsWwt5wNGgjh5INtQpiQs-5k3eFY6OM")
 
 if not BOT_TOKEN:
     raise Exception("BOT_TOKEN not found! Create a .env file.")
 
+
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
-        "🤖 AI Market Bot চালু হয়েছে!\n\n"
-        "কমান্ড:\n"
-        "/signal"
+        "🤖 AI Signal Bot\n\n"
+        "Use /signal to get the latest BTCUSDT signal."
     )
+
 
 async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
@@ -31,7 +32,7 @@ async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
         message = f"""
 📊 AI Market Analysis
 
-💰 Pair: BTCUSDT
+🪙 Pair: BTCUSDT
 💲 Price: {data['price']}
 📈 Signal: {data['signal']}
 🎯 Confidence: {data['confidence']}%
@@ -43,7 +44,8 @@ async def signal(update: Update, context: ContextTypes.DEFAULT_TYPE):
         await update.message.reply_text(message)
 
     except Exception as e:
-        await update.message.reply_text(f"❌ Error:\n{e}")
+        await update.message.reply_text(f"❌ Error: {e}")
+
 
 def main():
     app = ApplicationBuilder().token(BOT_TOKEN).build()
@@ -52,8 +54,8 @@ def main():
     app.add_handler(CommandHandler("signal", signal))
 
     print("✅ Bot Started...")
-
     app.run_polling()
+
 
 if __name__ == "__main__":
     main()
