@@ -7,7 +7,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 from strategy import get_signal
 
 load_dotenv()
-TOKEN = os.getenv("AAF0GsWwt5wNGgjh5INtQpiQs-5k3eFY6OM")
+TOKEN = os.getenv("8862576397:AAF0GsWwt5wNGgjh5INtQpiQs-5k3eFY6OM")
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
