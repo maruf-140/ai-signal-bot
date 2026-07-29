@@ -3,16 +3,14 @@ import requests
 def get_signal(symbol="BTCUSDT"):
     try:
         url = f"https://api.binance.com/api/v3/ticker/price?symbol={symbol}"
-        response = requests.get(url, timeout=10)
-        response.raise_for_status()
+        r = requests.get(url, timeout=10)
+        r.raise_for_status()
 
-        price = float(response.json()["price"])
-
-        signal = "BUY" if int(price) % 2 == 0 else "SELL"
+        price = float(r.json()["price"])
 
         return {
             "price": round(price, 2),
-            "signal": signal,
+            "signal": "BUY" if int(price) % 2 == 0 else "SELL",
             "confidence": 75,
             "rsi": "N/A"
         }
