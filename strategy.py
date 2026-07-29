@@ -9,12 +9,11 @@ def get_signal(symbol="BTCUSDT"):
         price = float(response.json()["price"])
 
         signal = "BUY" if int(price) % 2 == 0 else "SELL"
-        confidence = 75
 
         return {
             "price": round(price, 2),
             "signal": signal,
-            "confidence": confidence,
+            "confidence": 75,
             "rsi": "N/A"
         }
 
